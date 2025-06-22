@@ -1,0 +1,8 @@
+yfinance
+pandas
+newsapi-python
+praw
+nltk
+pandas-ta
+openai
+alpaca-trade-api
