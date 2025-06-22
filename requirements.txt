@@ -6,3 +6,6 @@ nltk
 pandas-ta
 openai
 alpaca-trade-api
+ta
+vaderSentiment
+alpha_vantage

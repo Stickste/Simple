@@ -1,0 +1,18 @@
+# Byte-compiled / cache files
+__pycache__/
+*.py[cod]
+
+# Environment variables / secrets
+.env
+keys.py
+openai_key
+
+# Logs
+*.log
+
+# VS Code config
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
