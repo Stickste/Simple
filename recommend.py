@@ -1,6 +1,7 @@
 from openai import OpenAI
-from keys import ai_key
+import os
 
+ai_key = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key=ai_key)
 
 def should_buy_stock(prompt: str) -> bool:

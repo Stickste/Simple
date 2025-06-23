@@ -1,8 +1,9 @@
 import requests
 from datetime import datetime, timedelta
-from keys import News_key
+import os
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
+News_key = os.getenv("NEWS_API_KEY")
 API_KEY = News_key  # <-- deinen Key einfügen
 BASE_URL = "https://newsapi.org/v2/everything"
 

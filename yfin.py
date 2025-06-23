@@ -1,4 +1,5 @@
 import yfinance as yf
+import warnings
 import pandas as pd
 import numpy as np
 import json
@@ -7,6 +8,7 @@ from ta.trend import MACD
 from ta.momentum import RSIIndicator
 from ta.volatility import BollingerBands
 from ta.volume import OnBalanceVolumeIndicator
+warnings.simplefilter(action='ignore', category=FutureWarning)
 
 def get_technical_summary(ticker: str, filename: str = "technical_summary.json") -> str:
     try:
@@ -68,14 +70,12 @@ def get_technical_summary(ticker: str, filename: str = "technical_summary.json")
         # Save updated dictionary
         with open(filename, "w") as f:
             json.dump(all_data, f, indent=2)
-
-        print(f"✅ Appended {ticker.upper()} to {filename}")
         return filename
 
     except Exception as e:
         print(f"❌ Error with {ticker.upper()}: {e}")
         return ""
 
-if __name__ == "__main__":
-    get_technical_summary("TSLA")
-    get_technical_summary("AAPL")
+#if __name__ == "__main__":
+#    get_technical_summary("TSLA")
+#    get_technical_summary("AAPL")
