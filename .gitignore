@@ -16,3 +16,6 @@ openai_key
 # OS files
 .DS_Store
 Thumbs.db
+
+news_test.py
+main.py
