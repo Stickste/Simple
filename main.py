@@ -141,6 +141,7 @@ def main():
                      f"Technicals: {json.dumps(technical_data[ticker])}\n\nNews: {news}"
 
             print(f"📨 Sende Anfrage an GPT für {ticker}...")
+            print(prompt)
             if should_buy_stock(prompt):
                 chosen_stocks.append(ticker)
                 print(f"✅ Kaufempfehlung für {ticker}")
