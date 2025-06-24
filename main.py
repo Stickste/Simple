@@ -142,7 +142,7 @@ def main():
         # Get news + create prompt
         try:
             news = get_news_articles(ticker)
-            prompt = f"Based on the following technicals and news, should we buy {ticker} for a day, to sell the next?\n\n" \
+            prompt = f"Based on the following technicals and news, should we buy {ticker} today at market open, to sell right before close?\n\n" \
                      f"Technicals: {json.dumps(technical_data[ticker])}\n\nNews: {news}"
 
             print(f"📨 Sende Anfrage an GPT für {ticker}...")
