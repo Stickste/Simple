@@ -9,13 +9,18 @@ from recommend import should_buy_stock
 # from alpaca import buy_stocks  # uncomment to enable real buying
 from sp500 import fetch_sp500_tickers
 
+
 MAX_BUYS = 3
 FILENAME = "technical_summary.json"
 
 def buy_stocks(tickers):
     try:
         account = alpaca_api.get_account()
-        print(f"💵 Verfügbares Kapital: {float(account.cash):.2f} USD")
+        cash = float(account.cash)
+        print(f"💵 Verfügbares Kapital: {cash:.2f} USD")
+
+        allocation = cash / MAX_BUYS
+        print(f"📊 Kapital pro Aktie: {allocation:.2f} USD")
 
         # Bestehende Positionen verkaufen
         positions = alpaca_api.list_positions()
@@ -34,14 +39,14 @@ def buy_stocks(tickers):
                 except Exception as e:
                     print(f"⚠️ Fehler beim Verkauf von {position.symbol}: {e}")
 
-        # Neue Käufe (1000 USD pro Ticker)
+        # Neue Käufe (gleichmäßige Aufteilung)
         for ticker in tickers:
             try:
                 last_trade = alpaca_api.get_latest_trade(ticker)
                 last_price = float(last_trade.price)
-                qty = int(1000 / last_price)
+                qty = int(allocation / last_price)
                 if qty < 1:
-                    print(f"⚠️ {ticker}: Preis zu hoch für 1000 USD Investition.")
+                    print(f"⚠️ {ticker}: Preis zu hoch für {allocation:.2f} USD Investition.")
                     continue
 
                 alpaca_api.submit_order(
