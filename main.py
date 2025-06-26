@@ -8,7 +8,7 @@ if not os.getenv("GITHUB_ACTIONS"):
 import json
 import random
 from datetime import datetime
-
+from alpaca import buy_stocks
 
 from yfin import get_technical_summary
 from news import get_news_articles
