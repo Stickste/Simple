@@ -1,25 +1,27 @@
 from openai import OpenAI
 import os
+import json
 
 ai_key = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key=ai_key)
 
-def should_buy_stock(prompt: str) -> bool:
-    try:
-        response = client.chat.completions.create(
-            model="gpt-4o",
-            messages=[
-                {"role": "system", "content": "Du bist ein erfahrener Börsenanalyst. Antworte immer mit JA oder NEIN."},
-                {"role": "user", "content": prompt}
-            ],
-            temperature=0.2,
-            max_tokens=10
-        )
+def get_stock_decision(prompt: str) -> tuple[bool, str]:
+    response = client.chat.completions.create(
+        model="gpt-4o",
+        response_format={"type": "json_object"},          # wichtig!
+        messages=[
+            {"role": "system",
+             "content": (
+                 "Du bist ein erfahrener Börsenanalyst. "
+                 "Antworte ausschließlich als JSON: "
+                 '{"decision":"JA|NEIN","reason":"Knappe Begründung"}'
+             )},
+            {"role": "user", "content": prompt}
+        ],
+        temperature=0.2,
+        max_tokens=60
+    )
 
-        content = response.choices[0].message.content.strip().lower()
-        return "ja" in content or "yes" in content
-
-    except Exception as e:
-        print("❌ Fehler bei should_buy_stock:", e)
-        return False
+    data = json.loads(response.choices[0].message.content)
+    return data["decision"].lower() == "ja", data["reason"]
 

@@ -1,5 +1,10 @@
-# sell_all.py
 import os
+
+# Only load .env if not running in CI (GitHub Actions)
+if not os.getenv("GITHUB_ACTIONS"):
+    from dotenv import load_dotenv
+    load_dotenv()
+
 import alpaca_trade_api as tradeapi
 
 alp_key = os.getenv("APCA_API_KEY_ID")

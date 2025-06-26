@@ -1,0 +1,46 @@
+import yfinance as yf
+import pandas as pd
+
+def fetch_intraday_prices(ticker: str, days: int) -> pd.DataFrame:
+    """
+    Fetch 15-minute intraday prices for `ticker` over the past `days` days.
+    Compatible with yfinance==0.2.58.
+
+    Parameters
+    ----------
+    ticker : str
+        Stock symbol, e.g. 'AAPL'.
+    days : int
+        Look-back window in calendar days (1–60 for 15-minute data).
+
+    Returns
+    -------
+    pd.DataFrame
+        Datetime-indexed OHLCV dataframe in the exchange’s time zone.
+
+    Raises
+    ------
+    ValueError
+        If `days` is out of range or no data are returned.
+    """
+    if not 1 <= days <= 60:
+        raise ValueError("For 15-minute bars, days must be between 1 and 60.")
+
+    # yfinance 0.2.x can fetch intraday with period + interval:
+    df = yf.download(
+        tickers=ticker,
+        period=f"{days}d",         # look-back window
+        interval="15m",            # intraday granularity
+        prepost=False,             # regular-hours data only
+        progress=False,
+        threads=True               # parallel download enabled in 0.2.x
+    )
+
+    if df.empty:
+        raise ValueError(f"No intraday data returned for {ticker} over {days} day(s).")
+
+    return df
+
+if __name__ == "__main__":
+    bars = fetch_intraday_prices("AAPL", 10)
+    print(bars.head())

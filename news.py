@@ -1,6 +1,12 @@
+import os
+
+# Only load .env if not running in CI (GitHub Actions)
+if not os.getenv("GITHUB_ACTIONS"):
+    from dotenv import load_dotenv
+    load_dotenv()
+
 import requests
 from datetime import datetime, timedelta
-import os
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
 News_key = os.getenv("NEWS_API_KEY")
