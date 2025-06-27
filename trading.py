@@ -1,6 +1,5 @@
 import os
 import time
-from alpaca import api as alpaca_api
 import alpaca_trade_api as tradeapi
 
 # Only load .env if not running in CI (GitHub Actions)
@@ -14,7 +13,7 @@ MAX_BUYS = 3
 alp_key = os.getenv("ALPACA_API_KEY")
 alp_secret = os.getenv("ALPACA_SECRET_KEY")
 
-api = tradeapi.REST(alp_key, alp_secret, "https://paper-api.alpaca.markets")
+alpaca_api = tradeapi.REST(alp_key, alp_secret, "https://paper-api.alpaca.markets")
 
 def buy_stocks(tickers):
     """Liquidiert alte Positionen & kauft neue gleichgewichtet."""
@@ -69,3 +68,12 @@ def buy_stocks(tickers):
 
     except Exception as e:
         print(f"❌ Fehler beim Abrufen von Kontodaten: {e}")
+
+if __name__ == "__main__":
+    positions = alpaca_api.list_positions()
+    if positions:
+        print(positions)
+    else:
+        print("no Positions")
+
+    
