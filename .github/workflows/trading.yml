@@ -2,7 +2,7 @@ name: Daily Trading Bot
 
 on:
   schedule:
-    - cron: '30 13 * * 1-5'  # 9:40 AM ET → 13:40 UTC, Monday to Friday
+    - cron: '10 13 * * 1-5'  # 9:10 AM ET → 13:10 UTC, Monday to Friday
   workflow_dispatch:  # allows manual triggering
 
 jobs:
